@@ -6,6 +6,27 @@ import './App.css';
 function App() {
   const [count, setCount] = useState(0);
 
+  async function handleClick() {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id! },
+        func: () => {
+            console.log("Hello, World!");
+            alert("Hello, World!");
+            const paragraph = document.querySelector('.msg-form__contenteditable p');
+            const placeholderdiv = document.querySelector('.msg-form__placeholder');
+            if(paragraph) {
+                placeholderdiv!.setAttribute('data-placeholder', '');
+                paragraph.textContent = "Hello, World!";
+            }
+            else {
+                console.log("Wrong page");
+            }
+        }
+    });
+}
+
   return (
     <>
       <div>
@@ -21,6 +42,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <button onClick={() => handleClick()}>Click me</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
