@@ -1,3 +1,4 @@
+import Vector from '../assets/Vector.png'
 export default defineContentScript({
   matches: ['https://*/*', 'http://*/*'],
   main() {
@@ -18,7 +19,7 @@ export default defineContentScript({
       const inputField = document.querySelector('.msg-form__contenteditable') as HTMLElement;
       if (inputField) {
         const icon = document.createElement('img') as HTMLImageElement;
-        icon.src = '../assets/icon.png'; // Replace with the path to your image
+        icon.src = Vector; // Replace with the path to your image
         icon.style.position = 'absolute';
         icon.style.right = '10px';
         icon.style.top = '50%';
@@ -63,28 +64,31 @@ export default defineContentScript({
           padding: 20px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
           z-index: 1000;
-          width: 300px;
         ">
-          <div class="p-4 w-[300px] mx-auto">
-            <div class="mb-4" id="response-container"></div>
-            <div class="mb-4">
+          <div style="padding: 16px; width: 300px; margin-left: auto; margin-right: auto;">
+            <div style="margin-bottom: 16px;" id="response-container"></div>
+            <div style="margin-bottom: 16px;">
               <input
                 type="text"
                 id="user-prompt"
                 placeholder="Reply thanking for the opportunity"
-                class="w-full p-2 border border-gray-300 rounded"
+                style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;"
               />
             </div>
-            <div class="flex justify-between">
+            <div style="display: flex; justify-content: space-between;">
               <button
                 id="insert-button"
-                class="bg-white text-gray-700 border border-gray-300 rounded px-4 py-2 hover:bg-gray-100"
+                style="background-color: white; color: #374151; border: 1px solid #d1d5db; border-radius: 4px; padding: 8px 16px; cursor: pointer;"
+                onmouseover="this.style.backgroundColor='#f3f4f6';"
+                onmouseout="this.style.backgroundColor='white';"
               >
                 ↓ Insert
               </button>
               <button
                 id="generate-button"
-                class="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
+                style="background-color: #3b82f6; color: white; border-radius: 4px; padding: 8px 16px; cursor: pointer;"
+                onmouseover="this.style.backgroundColor='#2563eb';"
+                onmouseout="this.style.backgroundColor='#3b82f6';"
               >
                 ⟳ Generate
               </button>
@@ -104,8 +108,8 @@ export default defineContentScript({
       generateButton!.addEventListener('click', (e) => {
         e.stopPropagation();
         responseContainer!.innerHTML = `
-          <div class="bg-blue-50 border border-blue-200 rounded p-3">
-            <p class="text-gray-700">${staticResponse}</p>
+          <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 12px;">
+            <p style="color: #374151;">${staticResponse}</p>
           </div>
         `;
       });
@@ -129,6 +133,7 @@ export default defineContentScript({
         modalContainer.remove();
       }
     });
+    
 
     const intervalId = setInterval(() => {
       const inputField = document.querySelector('.msg-form__contenteditable') as HTMLElement;
